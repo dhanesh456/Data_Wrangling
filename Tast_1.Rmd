@@ -1,0 +1,200 @@
+---
+title: "Data Wrangling (Data Preprocessing)"
+author: "Dhanesh Gaikwad"
+subtitle: Practical assessment 1
+date: ""
+output:
+  html_notebook: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r}
+
+
+library(readr)
+library(kableExtra)
+library(magrittr)
+library(dplyr)
+library(knitr)
+```
+
+```{r}
+
+
+
+students <- c("Dhanesh Gaikwad")
+student_numbers <- c("4000700")
+percentage_contributions <- c("100%")
+
+s <- data.frame("Student name" = students, "Student number" = student_numbers, "Percentage of contribution" = percentage_contributions)
+
+
+kbl(s, caption = "Group information") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+# **Data Description**
+
+<https://www.kaggle.com/datasets/drahulsingh/best-selling-books>
+
+-   This data set has been taken from www.kaggle.com (as link mentioned above).
+-   Choose data set basically have list of the "best-selling books" and "book series" (that can be in any language).
+-   Eventually "best-selling" term indicates the anticipated number of copies sold for individual book without considering the number of books that      are printed or currently owned(\$\$ Although text book and comics are excluded in this list).
+-   Books are organised on the basis of "greatest sales". Majorly data set comprise of 6 "Columns" and 174 "Rows".
+
+# **Attribute's Interpretation :** 
+
+-   Book series - (The list of Book's title ) ["Datatype: string"] )
+-   Author - (The list of writers name ["Datatype: string"])
+-   Original Language - (Language in which book is English ("Datatype:string")
+-   First Published - (Book's released dates ["Datatype : int"])
+-   Approximate sale in million - ( Estimated trade of books ["Datatype : int"])
+-   Genre -(Class of books [Datatype : string])
+
+# **Read/Import Data**
+
+-   We are reading data from the "best-selling-books.csv" CSV (Comma-Separated Values) file at the given directory.
+-   CSV files are frequently used to hold tabular data with comma-delimited value separations.
+-   To read CSV files in R and automatically convert the data into a structured format, use the' read_csv' function.
+-   'data' is a data frame that has been loaded with the data from the CSV file.
+
+```{r}
+
+data <- read_csv("E:/RMIT/DW/Assignments/Assignment_1/best-selling-books.csv") 
+
+```
+
+# **Inspecting and Understanding**
+
+-   *Displaying the first 6 rows of the data*
+
+```{r}
+
+head(data)          
+
+```
+
+-   *Displaying the last 6 rows of the data*
+
+```{r}
+
+tail(data)          
+
+```
+
+-   Summary function is used to summarize the data, including data types, missing values, and basic statistics
+
+```{r}
+
+summary(data)
+
+```
+
+-   The data structure is examined using the str() function, which displays the data types and the number of observations for each variable.
+
+```{r}
+
+str(data)
+
+```
+
+-   dim() function is used to check the dimension of the data frame
+
+```{r}
+
+dim(data)   
+
+```
+
+-   names() function shows the names of the variables in the data frame
+
+```{r}
+
+names(data)         
+
+```
+
+-   anyNA() function is used to check if there is any missing values in the data set
+
+```{r}
+
+anyNA(data)
+
+```
+
+# **Subsetting**
+
+## Step 1:
+
+-   In this step we are Subsetting the data frame into the variable named subset and we have to use [] brackets to subset a data frame. The first argument passed in the bracket gives the rows we want to include in our subset
+
+```{r}
+
+subset <- data[1:10,]   
+
+```
+
+## Step 2:
+
+-   In this process we are converting subset data into a matrix.For converting the subset we have used as.maxtrix() function. This funtion is inbuild function so we dont need to import it
+
+```{r}
+
+martix1 <- as.matrix(subset)  
+
+```
+
+## Step 3:
+
+-   In this step we are checking the structure of matrix, We have used srt() function which is an inbuild function. With this function we can inspect the structure of the object
+
+```{r}
+
+str(martix1)
+
+```
+
+# **New Data Frame**
+
+-   A list of 10 names has been prepared as a new vector called "Names" by our team.
+-   Each person on the list has had their gender determined using the factor function. To keep an order, the "ordered" argument is set to TRUE.
+-   The "Collage" data frame's structure, including its columns and the associated data types, is displayed using the str() function.
+-   This function displays the levels (categories) within the "Gender" factor column in the "Collage" data frame.
+-   To indicate the ages of the people in the list, a new vector called "Age" has been constructed.
+-   Using the cbind function, the "Age" vector is added as a new column to the already-existing "Collage" data frame.
+-   Three columns---"Names," "Gender," and "Age"---are now present in the final "Collage" data frame, which is now visible.
+
+```{r}
+
+
+Names <- c("Dhanesh","Chirag","Yukta","Dhumal","Omkar","Vinay","Bhosale","Shivani","Shedge","Prasad")
+
+Gender <- factor(c("Male","Male","Female","Male","Male","Female","Male","Female","Male","Male"),levels = c("Male","Female"), ordered = TRUE) 
+
+Collage <- data.frame(Names, Gender) # We have combined the "Names" and "Gender" vectors to create a new data frame named "Collage" with two columns.
+
+str(Collage)
+
+levels(Collage$Gender)
+
+Age <- c(23,54,24,26,25,23,22,20,19,29)
+
+Collage <- cbind(Collage, Age)
+
+Collage
+
+
+
+```
+
+-   In the beginning, we made two vectors, "Names" and "Gender," to represent names and genders of people.
+
+-   A factor with specified levels ("Male" and "Female") was created from the "Gender" vector.
+
+-   Once integrated, these vectors were placed in a data frame called "Collage." The str function was used to analyze the structure of "Collage".
+
+-   The "Age" vector was then added to capture the ages of the people. Using the cbind function, this vector was added as a new column to the preexisting "Collage" data frame.
+
+-   The end result is a thorough data frame with three columns: "Names," "Gender," and "Age," giving a detailed overview of the information gathered for each person.
